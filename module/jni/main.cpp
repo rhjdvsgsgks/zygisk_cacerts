@@ -17,21 +17,6 @@ public:
     void postAppSpecialize(const AppSpecializeArgs *args) override {
         api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
 
-        bool network_allowed = false;
-        if (jintArray gids = args->gids) {
-            jint *arr = env->GetIntArrayElements(gids, nullptr);
-            jsize len = env->GetArrayLength(gids);
-            for (int i = 0; i < len; ++i) {
-                gid_t gid = arr[i];
-                if (gid == 3003) {
-                    network_allowed = true;
-                    break;
-                }
-            }
-            env->ReleaseIntArrayElements(gids, arr, JNI_ABORT);
-        }
-        if (!network_allowed) return;
-
         jclass system = env->FindClass("java/lang/System");
         jmethodID setprop = env->GetStaticMethodID(system, "setProperty",
                                                    "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
