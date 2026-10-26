@@ -14,7 +14,7 @@ public:
         this->env = env_;
     }
 
-    void postAppSpecialize(const AppSpecializeArgs *args) override {
+    void postAppSpecialize([[maybe_unused]] const AppSpecializeArgs *args) override {
         api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
 
         jclass system = env->FindClass("java/lang/System");
